@@ -6,6 +6,7 @@ import { useState } from "react";
 import {z} from 'zod'
 import {useForm} from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
 
 export default function Home() {
   const [regform, setregform] = useState(false)
@@ -47,11 +48,19 @@ export default function Home() {
     resolver : zodResolver(regtype == "signup" ? SignUpSchema : SignInSchema),
   })
 
-  const Fsubmit = (data: TSignUpSchema | TSignInSchema) => {
+  const Fsubmit = async (data: TSignUpSchema | TSignInSchema) => {
     console.log(data)
     reset()
     setregform(false)
+    if(regtype == "signup"){
+      await axios.post('/api/register' , { 
+        email: data.email,
+        NickName: data?.Nickname,
+        password: data.password
+      })
+    }
   }
+
 
   return (
     <main className="w-full min-h-[100vh] bg-[#181818] flex flex-col items-center justify-center">

@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from 'bcrypt'
-import prisma from '../libs/prismadb'
+import prisma from '../../libs/prismadb'
 
-export default async function handle(
+export default async function handler(
     req : NextApiRequest, 
     res : NextApiResponse)
     {
@@ -11,6 +11,7 @@ export default async function handle(
     }
 
     try {
+        console.log('egaa')
         const {email, NickName, password} = req.body
         const hashedPassword = await bcrypt.hash(password, 12)
 
@@ -18,9 +19,11 @@ export default async function handle(
             data : {
                 email,
                 NickName,
-                hashedPassword
+                hashedPassword,
             }
         })
+
+        return res.status(200).json(user)
     } catch (error) {
         console.log(error)
     }
