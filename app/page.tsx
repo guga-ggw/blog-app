@@ -49,17 +49,17 @@ export default function Home() {
   })
 
   const Fsubmit = async (data: TSignUpSchema | TSignInSchema) => {
-    console.log(data)
-    reset()
-    setregform(false)
-    if(regtype == "signup"){
-      await axios.post('/api/register' , { 
+    console.log(data);
+    reset();
+    setregform(false);
+    if (regtype === "signup" && 'NickName' in data) {
+      await axios.post('api/register', { 
         email: data.email,
-        NickName: data?.Nickname,
+        NickName: data?.NickName,
         password: data.password
-      })
+      });
     }
-  }
+  };
 
 
   return (
